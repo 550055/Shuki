@@ -14,7 +14,7 @@ var load = function() {
   var canvas = document.getElementById('game');
   var data = {
     x: canvas.offsetLeft,
-    y: canvas.oddsetTop,
+    y: canvas.offsetTop,
     width: canvas.width,
     height: canvas.height,
     context: canvas.getContext('2d')

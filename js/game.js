@@ -9,59 +9,65 @@ var game = {
   lastStateChange: 30,
   elements: [],
   start: function(canvas) {
-    game.x = canvas.x;
-    game.y = canvas.y;
-    game.width = canvas.width;
-    game.height = canvas.height;
-    game.context = canvas.context;
-    game.state = gameStatesEnum.playing;
-    wall.create('top', 0, -980, game.width, 1000);
-    wall.create('bottom', 0, game.height-20, game.width, 1000);
-    wall.create('left', -980, 0, 1000, game.height);
-    wall.create('right', game.width-20, 0, 1000, game.height);
-    game.elements.push(wall.list.top);
-    game.elements.push(wall.list.bottom);
-    game.elements.push(wall.list.left);
-    game.elements.push(wall.list.right);
-    game.elements.push(player);
-    for (var i = 0; i < game.elements.length; i++) {
-      game.elements[i].init();
+    this.x = canvas.x;
+    this.y = canvas.y;
+    this.width = canvas.width;
+    this.height = canvas.height;
+    this.context = canvas.context;
+    this.state = gameStatesEnum.playing;
+    wall.create('top', 0, -980, this.width, 1000);
+    wall.create('bottom', 0, this.height-20, this.width, 1000);
+    wall.create('left', -980, 0, 1000, this.height);
+    wall.create('right', this.width-20, 0, 1000, this.height);
+    wall.create('i1', this.width*0.1, this.height*0.2, this.width*0.5, this.height*0.05);
+    wall.create('i2', this.width*0.2, this.height*0.4, this.width*0.5, this.height*0.05);
+    wall.create('i3', this.width*0.3, this.height*0.6, this.width*0.5, this.height*0.05);
+    wall.create('i4', this.width*0.4, this.height*0.8, this.width*0.5, this.height*0.05);
+    for (var key in wall.list) {
+      if (wall.list.hasOwnProperty(key)) {
+        this.elements.push(wall.list[key]);
+      }
     }
-    setInterval(game.update, 1000/60);
+    this.elements.push(player);
+    for (var i = 0; i < game.elements.length; i++) {
+      this.elements[i].init();
+    }
+    setInterval(this.update.bind(this), 1000/60);
   },
   pause: function() {
-    if(game.state === gameStatesEnum.pause) {
-      game.state = gameStatesEnum.playing;
-    } else if(game.state === gameStatesEnum.playing) {
-      game.state = gameStatesEnum.pause;
+    if(this.state === gameStatesEnum.pause) {
+      this.state = gameStatesEnum.playing;
+    } else if(this.state === gameStatesEnum.playing) {
+      this.state = gameStatesEnum.pause;
     }
-    game.lastStateChange = 0;
+    this.lastStateChange = 0;
   },
   win: function() {},
   over: function() {},
   update: function() {
-    ++game.lastStateChange;
-    if(game.state === gameStatesEnum.playing) {
-      for (var i = 0; i < game.elements.length; i++) {
-        game.elements[i].update();
+    ++this.lastStateChange;
+    if(this.state === gameStatesEnum.playing) {
+      for (var i = 0; i < this.elements.length; i++) {
+        this.elements[i].update();
       }
     }
     if(keyboard.p && game.lastStateChange > 30) {
-      game.pause();
+      this.pause();
     }
-    game.render();
+    this.render();
   },
   render: function() {
-    if(game.state === gameStatesEnum.playing) {
-      game.context.fillStyle = game.backgroundColor;
-      game.context.fillRect(game.x, game.y, game.width, game.height);
-      for (var i = 0; i < game.elements.length; i++) {
-        game.elements[i].render();
+    if(this.state === gameStatesEnum.playing) {
+      this.context.fillStyle = this.backgroundColor;
+      this.context.fillRect(this.x, this.y, this.width, this.height);
+      //llamo a render de todos los objetos del juego
+      for (var i = 0; i < this.elements.length; i++) {
+        this.elements[i].render();
       }
     } else {
-      game.context.fillStyle = 'rgba(50, 50, 50, 0.01)';
-      game.context.fillRect(game.x, game.y, game.width, game.height);
-      switch(game.state) {
+      this.context.fillStyle = 'rgba(50, 50, 50, 0.01)';
+      this.context.fillRect(this.x, this.y, this.width, this.height);
+      switch(this.state) {
         case gameStatesEnum.pause:
           text.draw('Pausa', '#fff');
           break;
@@ -76,5 +82,3 @@ var gameStatesEnum = {
   win: 'w',
   over: 'o'
 };
-
-  

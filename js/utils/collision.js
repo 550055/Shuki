@@ -9,7 +9,7 @@ var collision = {
       (boxA.y + boxA.height) > boxB.y;
   },
   circles: function(circleA, circleB) {
-    if (circleA === circleB) {
+    if(circleA === circleB) {
       return false;
     }
     return Math.abs(circleA.x - circleB.x) < (circleA.radius + circleB.radius) &&
@@ -30,7 +30,7 @@ var collision = {
   },
   boxesSide: function(boxA, boxB) {
     if(boxA === boxB) {
-      return false;
+      return null;
     }
     var collision = null;
     //Check if the 2 rectangle's centers are close enough to be colliding
