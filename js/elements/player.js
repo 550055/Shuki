@@ -14,7 +14,7 @@ var player = {
       collisionSide = collision.boxesSide(player, game.elements[i]);
       if(collisionSide) {
         //game overs when the enemy hits the player from left or right
-        if(game.elements[i] === enemy) {
+        if(game.elements[i] === enemys.list["enemy1"]) {
           game.over();
         }
         if(game.elements[i].class === 'fruit') {

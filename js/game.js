@@ -27,13 +27,14 @@ var game = {
     wall.create('i6', this.width*0.4, this.height*0.7, this.width*0.2, this.height*0.04);
     wall.create('i7', this.width*0.0, this.height*0.8, this.width*0.3, this.height*0.04);
     wall.create('i8', this.width*0.7, this.height*0.8, this.width*0.3, this.height*0.04);
+    enemys.create("enemy1",this.id*0.5,this.x*0.4,this.y*0.2,this.width*0.3,this.height*0.4);
     for (var key in wall.list) {
         if (wall.list.hasOwnProperty(key)) {
           this.elements.push(wall.list[key]);
         }
       }
       this.elements.push(player);
-      this.elements.push(enemy); //sta mierda pa enemigo bv ak tene k agrega
+      this.elements.push(enemys.list["enemy1"]); //sta mierda pa enemigo bv ak tene k agrega
       //hago update de todos los objetos del juego
       for (var i = 0; i < this.elements.length; i++) {
         this.elements[i].init();

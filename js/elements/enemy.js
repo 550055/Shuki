@@ -70,7 +70,7 @@ var enemy = {
   },
   update: function() {
     this.fixNumbers();
-    this.checkJump();
+    //this.checkJump();
     this.move();
     this.checkCollision();
   },
