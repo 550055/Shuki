@@ -1,37 +1,26 @@
-var player = {
+var enemy = {
   x: 100,
   y: 0,
   width: 30,
   height: 40,
-  backgroundColor: '#0C0',
+  backgroundColor: '#26F',
   speed: 3,
   jumpForce: null,
   maxJumpForce: 7,
   score: 0,
+  direction: 'right',
   checkCollision: function() {
     var i, collisionSide, hasCollisionBottom = false;
     for (i = 0; i < game.elements.length; i++) {
-      collisionSide = collision.boxesSide(player, game.elements[i]);
+      collisionSide = collision.boxesSide(enemy, game.elements[i]);
       if(collisionSide) {
-        //game overs when the enemy hits the player from left or right
-        if(game.elements[i] === enemys.list["enemy1"]) {
-          game.over();
-        }
         if(game.elements[i].class === 'fruit') {
-          game.elements[i].die();
-          this.score += 10;
-          if(Object.keys(fruit.list).length) {
-            continue;
-          } else {
-            return setTimeout(function() { game.win(); }, 50);
-          }
+          continue;
         }
-        if(collisionSide === 'left' && keyboard.left) {
-          //revert left action
-          this.x += this.speed;
-        } else if(collisionSide === 'right' && keyboard.right) {
-          //revert right action
-          this.x -= this.speed;
+        if(collisionSide === 'left' && this.direction == 'left') {
+          this.direction = 'right';
+        } else if(collisionSide === 'right' && this.direction == 'right') {
+          this.direction = 'left';
         } else if(collisionSide === 'top') {
           //start fall down if needed
           if(this.jumpForce >= 0) {
@@ -53,9 +42,9 @@ var player = {
   },
   move: function() {
     //move left and right
-    if(keyboard.left) {
+    if(this.direction == 'left') {
       this.x -= this.speed;
-    } else if(keyboard.right) {
+    } else if(this.direction == 'right') {
       this.x += this.speed;
     }
     //jump
@@ -67,7 +56,7 @@ var player = {
     }
   },
   checkJump: function() {
-    if(keyboard.up && this.jumpForce === null) {
+    if(this.jumpForce === null && Math.random() < 0.01) {
       this.jumpForce = this.maxJumpForce;
     }
   },
@@ -77,11 +66,11 @@ var player = {
     if(typeof this.jumpForce === 'number') this.jumpForce = Math.round(this.jumpForce * 100) / 100;
   },
   init: function() {
-    this.y = wall.list['bottom'].y - this.height;
+    this.y = wall.list['i1'].y - this.height;
   },
   update: function() {
     this.fixNumbers();
-    this.checkJump();
+    //this.checkJump();
     this.move();
     this.checkCollision();
   },
