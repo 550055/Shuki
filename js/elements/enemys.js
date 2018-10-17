@@ -50,7 +50,7 @@ var enemys = {
         } else if(this.direction == 'right') {
           this.x += this.speed;
         }
-        }
+        
         //jump
         if(typeof this.jumpForce === 'number') {
           this.y -= this.jumpForce;
